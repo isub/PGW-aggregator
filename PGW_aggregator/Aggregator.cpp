@@ -156,6 +156,9 @@ SessionMap::iterator Aggregator::CreateSession(const PGWRecord& pGWRecord, unsig
 		   Utils::TBCDString_to_ULongLong(pGWRecord.servedMSISDN),
            Utils::TBCDString_to_String(pGWRecord.servedIMEISV),
            (pGWRecord.accessPointNameNI ? reinterpret_cast<const char*>(pGWRecord.accessPointNameNI->buf) : ""),
+		   ( NULL != pGWRecord.servedPDPPDNAddress && pGWRecord.servedPDPPDNAddress->present == PDPAddress_PR_iPAddress)
+				? Utils::IPAddress_to_ULong( &pGWRecord.servedPDPPDNAddress->choice.iPAddress )
+				: static_cast< unsigned32 >(-1),
            duration,
 		   Utils::IPAddress_to_ULong(pGWRecord.servingNodeAddress.list.array[0]),
 		   Utils::PLMNID_to_ULong(pGWRecord.servingNodePLMNIdentifier),

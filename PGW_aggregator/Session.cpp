@@ -14,6 +14,7 @@ Session::Session(unsigned32 chargingID,
     unsigned64 mSISDN,
     std::string iMEI,
     std::string accessPointName,
+	unsigned32 servedPDPPDNAddress,
     unsigned32 duration,
     unsigned32 servingNodeIP,
     unsigned32 servingNodePLMNID,
@@ -31,6 +32,7 @@ Session::Session(unsigned32 chargingID,
         mSISDN(mSISDN),
         iMEI(iMEI),
         accessPointName(accessPointName),
+		servedPDPPDNAddress( servedPDPPDNAddress ),
         servingNodeIP(servingNodeIP),
         servingNodePLMNID(servingNodePLMNID),
         volumeUplinkAggregated(dataVolumeUplink),
@@ -83,7 +85,7 @@ void Session::ForceExport()
             otl_stream dbStream;
             dbStream.open(1,
                     "call BILLING.MOBILE_DATA_CHARGER.ExportSession(:charging_id /*bigint,in*/, :imsi /*bigint,in*/, :msisdn /*bigint,in*/, "
-                    ":imei /*char[20],in*/, :access_point_name /*char[64],in*/, :start_time /*timestamp,in*/, :end_time /*timestamp,in*/,"
+                    ":imei /*char[20],in*/, :access_point_name /*char[64],in*/, :framed_ip /*bigint,in*/, :start_time /*timestamp,in*/, :end_time /*timestamp,in*/,"
                     ":serving_node_ip /*bigint,in*/, :plmn_id /*long,in*/, "
                     ":rating_group /*long,in*/, :data_volume_uplink /*bigint,in*/, :data_volume_downlink /*bigint,in*/,"
                     ":source_id /*long,in*/) "
@@ -99,6 +101,7 @@ void Session::ForceExport()
                         << static_cast<signed64>(mSISDN)
                         << iMEI
                         << accessPointName
+						<< static_cast< signed64 >( servedPDPPDNAddress )
                         << OTL_Utils::Time_t_to_OTL_datetime(startTime)
                         << OTL_Utils::Time_t_to_OTL_datetime(endTime)
                         << static_cast<signed64>(servingNodeIP)
@@ -141,7 +144,8 @@ std::string Session::SessionDataDump()
         + "MSISDN: " + std::to_string(mSISDN) + crlf
         + "IMEI: " + iMEI + crlf
         + "APN: " + accessPointName + crlf
-        + "startTime: " + Utils::Time_t_to_String(startTime) + crlf
+		+ "servedPDPPDNAddress: " + std::to_string( servedPDPPDNAddress ) + crlf
+		+ "startTime: " + Utils::Time_t_to_String(startTime) + crlf
         + "endTime: " + Utils::Time_t_to_String(endTime) + crlf
         + "servingNodeAddress: " + std::to_string(servingNodeIP) + crlf
         + "PLMN-ID: " + std::to_string(servingNodePLMNID) + crlf

@@ -24,6 +24,7 @@ public:
             unsigned64 mSISDN,
             std::string iMEI,
             std::string accessPointName,
+            unsigned32 servedPDPPDNAddress,
             unsigned32 duration,
             unsigned32 servingNodeIP,
             unsigned32 servingNodePLMNID,
@@ -52,6 +53,7 @@ private:
     unsigned64 mSISDN;
     std::string iMEI;
     std::string accessPointName;
+	unsigned32 servedPDPPDNAddress;
     unsigned32 servingNodeIP;
     unsigned32 servingNodePLMNID;
 
