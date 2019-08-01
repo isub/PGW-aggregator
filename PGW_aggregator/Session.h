@@ -2,6 +2,8 @@
 #include <string>
 #include <atomic>
 #include <memory>
+#include <set>
+
 #include "Common.h"
 #include "OTL_Header.h"
 #include "DBConnect.h"
@@ -49,8 +51,9 @@ public:
         { return volumeUplinkAggregated>0 || volumeDownlinkAggregated>0 || endTime>startTime; }
 private:
     const double tollFreeBound = 0.001;
-    const int deadlockExceptionCode = 60;
-    unsigned64 mSISDN;
+	const std::set<int> m_setIgnoreOraErrorCodes = { 60, 4068 };
+
+	unsigned64 mSISDN;
     std::string iMEI;
     std::string accessPointName;
 	unsigned32 servedPDPPDNAddress;
